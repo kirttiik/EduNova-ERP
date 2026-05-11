@@ -66,7 +66,7 @@ export default function AttendancePage() {
         
         // If it's today and we're a coordinator, also fetch staff to ensure we show everyone
         if (canMark) {
-          const staffRes = await staffApi.getAll({ schoolId: user?.schoolId });
+          const staffRes = await staffApi.getAll(user?.schoolId ? { schoolId: user.schoolId } : undefined);
           if (staffRes.success) {
             setStaff(staffRes.data || []);
             
