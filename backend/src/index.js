@@ -83,13 +83,18 @@ app.get('/api/health', (req, res) => {
   });
 });
 
-// Mount route modules
-app.use('/api/auth', authRoutes);
-app.use('/api/schools', schoolRoutes);
-app.use('/api/staff', staffRoutes);
-app.use('/api/timetable', timetableRoutes);
-app.use('/api/attendance', attendanceRoutes);
-app.use('/api/analytics', analyticsRoutes);
+// Mount route modules (both with and without /api prefix for compatibility)
+const mountRoutes = (prefix = '') => {
+  app.use(`${prefix}/auth`, authRoutes);
+  app.use(`${prefix}/schools`, schoolRoutes);
+  app.use(`${prefix}/staff`, staffRoutes);
+  app.use(`${prefix}/timetable`, timetableRoutes);
+  app.use(`${prefix}/attendance`, attendanceRoutes);
+  app.use(`${prefix}/analytics`, analyticsRoutes);
+};
+
+mountRoutes('/api'); // Standard API prefix
+mountRoutes('');     // Fallback for direct calls
 
 // ============================================
 // ERROR HANDLING
